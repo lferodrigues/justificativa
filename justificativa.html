@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Justificativa de Consulta</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border: 2px solid #00723f;
+            position: relative;
+        }
+        .print-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #00723f;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #00723f;
+            padding-bottom: 10px;
+        }
+        .header img {
+            height: 50px;
+        }
+        .header-text {
+            text-align: left;
+            color: #00723f;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #00723f;
+            border-radius: 4px;
+            background-color: white;
+        }
+        h3 {
+            background-color: #00723f;
+            color: white;
+            padding: 5px;
+            border-radius: 4px;
+        }
+        .signature {
+            margin-top: 20px;
+            padding: 20px;
+            border: 2px solid #00723f;
+            text-align: center;
+            font-weight: bold;
+            background-color: #e6f2eb;
+            height: 80px;
+        }
+        .footer {
+            text-align: center;
+            font-size: 14px;
+            color: #00723f;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .footer img {
+            display: block;
+            margin: 10px auto;
+            height: 20px;
+        }
+        
+        @media print {
+            body {
+                background: none;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+            }
+            .container {
+                width: 18cm;
+                height: auto;
+                margin: auto;
+                padding: 20px;
+                box-shadow: none;
+                border: 2px solid #00723f;
+                border-radius: 10px;
+                page-break-before: always;
+                page-break-after: always;
+                transform: scale(0.65);
+                transform-origin: top center;
+            }
+            .print-button {
+                display: none;
+            }
+        }
+    </style>
+    <script>
+        function formatarData(input) {
+            let valor = input.value.replace(/\D/g, "");
+            if (valor.length > 2) valor = valor.slice(0, 2) + '/' + valor.slice(2);
+            if (valor.length > 5) valor = valor.slice(0, 5) + '/' + valor.slice(5, 9);
+            input.value = valor;
+        }
+        function formatarTelefone(input) {
+            let valor = input.value.replace(/\D/g, "");
+            if (valor.length > 2) valor = '(' + valor.slice(0, 2) + ') ' + valor.slice(2);
+            if (valor.length > 10) valor = valor.slice(0, 10) + '-' + valor.slice(10, 14);
+            input.value = valor;
+        }
+        function validarCodigoCliente(input) {
+            input.value = input.value.replace(/\D/g, "");
+        }
+        function imprimirPagina() {
+            window.print();
+        }
+    </script>
+</head>
+<body>
+    <button class="print-button" onclick="imprimirPagina()">Imprimir</button>
+    <div class="container">
+        <div class="header">
+            <div class="header-text">
+                JUSTIFICATIVA <br>
+                (Em intervalo menor do que 20 dias)
+            </div>
+            <img src="./Assets/img/logo.png" alt="Unimed Logo">
+        </div>
+        
+        <div class="section">
+            <label>Nome:</label>
+            <input type="text" required>
+            <label>Código do Cliente:</label>
+            <input type="text" oninput="validarCodigoCliente(this)" required>
+            <label>Tel. Contato:</label>
+            <input type="text" oninput="formatarTelefone(this)" placeholder="(xx) xxxxx-xxxx" required>
+        </div>
+        
+        <div class="section">
+            <center><h3>1ª CONSULTA</h3></center>
+            <label>Data:</label>
+            <input type="text" oninput="formatarData(this)" placeholder="dd/mm/aaaa">
+            <label>Motivo:</label>
+            <input type="text">
+        </div>
+        
+        <div class="section">
+            <center><h3>2ª CONSULTA</h3></center>
+            <label>Data:</label>
+            <input type="text" oninput="formatarData(this)" placeholder="dd/mm/aaaa">
+            <label>Motivo:</label>
+            <input type="text">
+        </div>
+        
+        <div class="section">
+            <label>São João Nepomuceno,</label>
+            <input type="text" oninput="formatarData(this)" placeholder="dd/mm/aaaa">
+            <label>Assinatura do Cliente / Responsável:</label>
+            <input type="text">
+        </div>
+        
+        <div class="signature">Assinatura e Carimbo do Médico</div>
+        
+        <div class="footer">
+            APÓS ANÁLISE, SE DEFERIDA A AUTORIZAÇÃO, SERÁ ENCAMINHADA PARA O SETOR DE FATURAMENTO.
+            <img src="./Assets/img/ans.png" alt="ANS Logo">
+        </div>
+    </div>
+</body>
+</html>
